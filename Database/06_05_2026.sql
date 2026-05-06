@@ -31,3 +31,18 @@ CREATE TABLE objectifs_users(
     FOREIGN KEY (users_id) REFERENCES Users(id),
     FOREIGN KEY (objectifs_id) REFERENCES objectifs(id)
 );
+CREATE TABLE regimes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    description TEXT,
+    objective_id INT,
+    variation_poids DECIMAL(5,2),
+    duree_jours INT,
+    prix DECIMAL(10,2),
+
+    pourcentage_viande DECIMAL(5,2),
+    pourcentage_poisson DECIMAL(5,2),
+    pourcentage_volaille DECIMAL(5,2),
+
+    FOREIGN KEY (objective_id) REFERENCES objectives(id)
+);
