@@ -9,6 +9,7 @@ CREATE TABLE users (
      genre ENUM('Homme', 'Femme', 'Autre') NOT NULL,
      mot_de_passe VARCHAR(255) NOT NULL,
      solde DECIMAL(10,2) DEFAULT 0.00,
+     role ENUM('USER', 'ADMIN') DEFAULT 'USER',
      is_gold BOOLEAN DEFAULT FALSE 
 );
 CREATE TABLE profil_sante(
@@ -18,6 +19,7 @@ CREATE TABLE profil_sante(
     taille DECIMAL(10,2) NOT NULL,
     age INT NOT NULL,
     imc DECIMAL(10,2) NOT NULL,
+
     FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE
 );
 CREATE TABLE objectifs(
@@ -30,6 +32,7 @@ CREATE TABLE objectifs_users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     users_id INT NOT NULL,
     objectifs_id INT NOT NULL,
+
     FOREIGN KEY (users_id) REFERENCES users(id)ON DELETE CASCADE, 
     FOREIGN KEY (objectifs_id) REFERENCES objectifs(id) ON DELETE CASCADE
 );
@@ -39,6 +42,10 @@ CREATE TABLE regimes (
     description TEXT,
     objectifs_id INT,
     variation_poids DECIMAL(10,2),
+    pourcentage_viande DECIMAL(5,2) DEFAULT 0,
+    pourcentage_poisson DECIMAL(5,2) DEFAULT 0,
+    pourcentage_volaille DECIMAL(5,2) DEFAULT 0,
+    
     FOREIGN KEY (objectifs_id) REFERENCES objectifs(id) ON DELETE CASCADE
 );
 CREATE TABLE regimes_prix(
@@ -46,6 +53,7 @@ CREATE TABLE regimes_prix(
     regime_id INT NOT NULL,
     prix DECIMAL(10,2) NOT NULL,
     duree_jours INT NOT NULL,
+
     FOREIGN KEY (regime_id) REFERENCES regimes(id) ON DELETE CASCADE
 );
 CREATE TABLE regimes_users (
@@ -54,6 +62,7 @@ CREATE TABLE regimes_users (
     regime_id INT NOT NULL,
     date_debut DATE NOT NULL,
     date_fin DATE NOT NULL,
+
     FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (regime_id) REFERENCES regimes(id) ON DELETE CASCADE
 );
@@ -63,6 +72,7 @@ CREATE TABLE activite_sportive(
     description TEXT NOT NULL,
     objectifs_id INT,
     duree_minutes INT,
+
     FOREIGN KEY (objectifs_id) REFERENCES objectifs(id) ON DELETE CASCADE
 );
 CREATE TABLE activite_sportive_users(
@@ -71,6 +81,7 @@ CREATE TABLE activite_sportive_users(
     activite_sportive_id INT NOT NULL,
     date_debut DATE NOT NULL,
     date_fin DATE NOT NULL,
+
     FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (activite_sportive_id) REFERENCES activite_sportive(id) ON DELETE CASCADE
 );
@@ -82,14 +93,23 @@ CREATE TABLE portfeuille_code(
     used_by INT,
     utilise BOOLEAN DEFAULT FALSE,
     montant DECIMAL(10,2) NOT NULL,
+
     FOREIGN KEY (used_by) REFERENCES users(id) ON DELETE SET NULL
 );
-CREATE TABLE historique_achats(
+CREATE TABLE portefeuille_transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    users_id INT NOT NULL,
-    regime_id INT NOT NULL,
-    date_achat DATE NOT NULL,
+    user_id INT NOT NULL,
+    regime_id INT,
+    type ENUM('RECHARGE', 'ACHAT_REGIME', 'ACHAT_GOLD') NOT NULL,
     montant DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (regime_id) REFERENCES regimes(id) ON DELETE CASCADE
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (regime_id) REFERENCES regimes(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE parametres (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cle VARCHAR(100) UNIQUE,
+    valeur VARCHAR(255)
 );
