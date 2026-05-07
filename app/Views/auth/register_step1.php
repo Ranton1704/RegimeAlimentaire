@@ -18,9 +18,9 @@
         <h2>Créez votre compte</h2>
         <p class="card-subtitle">Quelques informations pour personnaliser votre programme.</p>
 
-        <div class="alert-error" id="error"></div>
+        <div class="alert-error" id="error"><?= session()->getFlashdata('error') ?? '' ?></div>
 
-        <form id="step1Form">
+        <form id="step1Form" method="post" action="/register-step1">
             <?= csrf_field() ?>
 
             <fieldset>
@@ -32,8 +32,13 @@
                 </legend>
 
                 <div class="field">
-                    <label for="nom">Nom complet</label>
-                    <input type="text" id="nom" name="nom" placeholder="Jean Dupont"required>
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" name="nom" placeholder="Dupont" required>
+                </div>
+
+                <div class="field">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" name="prenom" placeholder="Jean" required>
                 </div>
 
                 <div class="field">
@@ -50,10 +55,16 @@
                         <label for="genre">Genre</label>
                         <select id="genre" name="genre" required>
                             <option value="">Choisir</option>
-                            <option value="H">Homme</option>
-                            <option value="F">Femme</option>
+                            <option value="Homme">Homme</option>
+                            <option value="Femme">Femme</option>
+                            <option value="Autre">Autre</option>
                         </select>
                     </div>
+                </div>
+
+                <div class="field">
+                    <label for="date_naissance">Date de naissance</label>
+                    <input type="date" id="date_naissance" name="date_naissance" required>
                 </div>
             </fieldset>
 

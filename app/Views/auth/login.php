@@ -13,9 +13,9 @@
         <h2>Bon retour&nbsp;!</h2>
         <p class="card-subtitle">Connectez-vous pour accéder à votre programme.</p>
 
-        <div class="alert-error" id="error"></div>
+        <div class="alert-error" id="error"><?= session()->getFlashdata('error') ?? '' ?></div>
 
-        <form id="loginForm">
+        <form id="loginForm" method="post" action="/login">
             <?= csrf_field() ?>
 
             <div class="field">
