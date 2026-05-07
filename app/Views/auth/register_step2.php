@@ -18,6 +18,8 @@
         <h2>Vos données de santé</h2>
         <p class="card-subtitle">Utilisées pour calculer votre programme nutritionnel personnalisé.</p>
 
+        <div class="alert-error" id="error"><?= session()->getFlashdata('error') ?? '' ?></div>
+
         <form method="post" action="/register-step2">
             <?= csrf_field() ?>
 
@@ -35,8 +37,24 @@
                         <input type="number" id="taille" step="0.01" name="taille" placeholder="1.75" required>
                     </div>
                     <div class="field">
-                        <label for="poids">Poids (kg)</label>
+                        <label for="poids">Poids actuel (kg)</label>
                         <input type="number" id="poids" step="0.1" name="poids" placeholder="70" required>
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="poids_souhaite">Poids souhaité (kg)</label>
+                        <input type="number" id="poids_souhaite" step="0.1" name="poids_souhaite" placeholder="65" required>
+                    </div>
+                    <div class="field">
+                        <label for="activite">Niveau d'activité physique</label>
+                        <select id="activite" name="activite" required>
+                            <option value="">Choisir</option>
+                            <option value="Faible">Faible</option>
+                            <option value="Moderee">Modérée</option>
+                            <option value="Intense">Intense</option>
+                        </select>
                     </div>
                 </div>
             </fieldset>
