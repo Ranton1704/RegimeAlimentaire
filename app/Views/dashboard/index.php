@@ -53,6 +53,12 @@
                     <p class="big"><?= isset($user['solde']) ? esc((string) $user['solde']) . ' Ar' : '0.00 Ar' ?></p>
                     <p><a href="/wallet">Voir</a></p>
                 </div>
+
+                <div class="card small">
+                    <h3>Mon profil</h3>
+                    <p>Gérer mes informations</p>
+                    <p><a href="/profil">Modifier</a></p>
+                </div>
             </div>
 
             <div class="card">

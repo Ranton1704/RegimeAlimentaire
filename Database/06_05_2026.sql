@@ -17,8 +17,10 @@ CREATE TABLE profil_sante(
     users_id INT NOT NULL,
     poids DECIMAL(10,2) NOT NULL,
     taille DECIMAL(10,2) NOT NULL,
+    poids_souhaite DECIMAL(10,2),
     age INT NOT NULL,
     imc DECIMAL(10,2) NOT NULL,
+    activite ENUM('Faible', 'Moderee', 'Intense') DEFAULT 'Moderee',
 
     FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE
 );

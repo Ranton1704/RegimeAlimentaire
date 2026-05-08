@@ -166,8 +166,10 @@ class Auth extends BaseController
             'users_id' => $userId,
             'poids' => $poids,
             'taille' => $taille,
+            'poids_souhaite' => (float) $this->request->getPost('poids_souhaite'),
             'age' => $age,
             'imc' => $imc,
+            'activite' => $this->request->getPost('activite'),
         ]);
 
         session()->set('onboarding_health', [

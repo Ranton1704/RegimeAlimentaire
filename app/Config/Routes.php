@@ -30,6 +30,11 @@ $routes->get('regime/(:num)/buy', 'Wallet::buyRegime/$1', ['filter' => 'auth']);
 
 $routes->get('logout', 'Auth::logout');
 
+// Profil utilisateur
+$routes->get('profil', 'Profil::index', ['filter' => 'auth']);
+$routes->get('profil/edit', 'Profil::edit', ['filter' => 'auth']);
+$routes->post('profil/update', 'Profil::update', ['filter' => 'auth']);
+
 // Gestion (Back office accessible via rôle admin)
 $routes->group('gestion', ['filter' => 'auth'], static function($routes) {
 	$routes->get('regimes', 'Regimes::index');

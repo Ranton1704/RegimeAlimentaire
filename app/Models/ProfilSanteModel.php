@@ -11,7 +11,9 @@ class ProfilSanteModel extends Model
         'users_id',
         'poids',
         'taille',
+        'poids_souhaite',
         'age',
         'imc',
+        'activite',
     ];
 }

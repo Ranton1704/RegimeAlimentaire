@@ -496,12 +496,54 @@ fieldset {
 .cards-row {
   display: flex;
   gap: 18px;
-  align-items: stretch; }
+  align-items: flex-start; }
 
 .card.small {
-  flex: 1 1 0;
-  max-width: none;
-  padding: 18px; }
+  position: relative; }
+  .card.small p a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #f0faf4;
+    border: 1px solid #d6f2e0;
+    color: #1e7d44;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.18s, border-color 0.18s, transform 0.18s, box-shadow 0.18s; }
+    .card.small p a:hover {
+      background: #2da05c;
+      border-color: #2da05c;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(30, 125, 68, 0.18); }
+    .card.small p a:active {
+      transform: translateY(0);
+      box-shadow: none; }
+
+.card.small {
+  flex: 1;
+  padding: 26px 24px; }
+
+.card.small {
+  background: linear-gradient(180deg, #ffffff 0%, #fcfcfa 100%);
+  border: 1px solid #e0d8c8;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+  .card.small:hover {
+    transform: translateY(-2px);
+    border-color: #d6f2e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04), 0 14px 30px rgba(0, 0, 0, 0.06); }
+  .card.small h3 {
+    margin-bottom: 14px; }
+  .card.small ul {
+    margin: 0;
+    padding-left: 18px; }
+    .card.small ul li {
+      margin-bottom: 6px;
+      color: #5a6360; }
 
 .dashboard-aside {
   position: sticky;
