@@ -10,7 +10,7 @@ CREATE TABLE users (
      mot_de_passe VARCHAR(255) NOT NULL,
      solde DECIMAL(10,2) DEFAULT 0.00,
      role ENUM('USER', 'ADMIN') DEFAULT 'USER',
-     is_gold BOOLEAN DEFAULT FALSE 
+    is_gold BOOLEAN DEFAULT FALSE 
 );
 CREATE TABLE profil_sante(
     id INT PRIMARY KEY AUTO_INCREMENT,

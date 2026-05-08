@@ -11,12 +11,26 @@ use App\Models\RegimePrixModel;
 use App\Models\ActiviteSportiveModel;
 use App\Models\PortefeuilleTransactionModel;
 use App\Models\RegimeUserModel;
+use App\Models\ParametreModel;
+use App\Models\PortefeuilleCodeModel;
 
 class Dashboard extends BaseController
 {
     public function index()
     {
         $userId = (int) session()->get('user_id');
+
+        $user = (new UserModel())->find($userId);
+        if (!$user) {
+            session()->destroy();
+            return redirect()->to('/login');
+        }
+
+        // Si administrateur, afficher dashboard admin
+        $role = strtoupper((string) ($user['role'] ?? session()->get('role') ?? 'USER'));
+        if ($role === 'ADMIN') {
+            return $this->adminDashboard($user);
+        }
 
         $profil = (new ProfilSanteModel())
             ->where('users_id', $userId)
@@ -27,8 +41,6 @@ class Dashboard extends BaseController
             ->join('objectifs_users', 'objectifs_users.objectifs_id = objectifs.id', 'inner')
             ->where('objectifs_users.users_id', $userId)
             ->findAll();
-
-        $user = (new UserModel())->find($userId);
 
         // recommendations: prefer regimes matching user's selected objectifs
         $selectedIds = (new ObjectifUserModel())
@@ -48,7 +60,9 @@ class Dashboard extends BaseController
         $regimePrixModel = new RegimePrixModel();
         $activiteModel = new ActiviteSportiveModel();
         $isGold = !empty($user['is_gold']);
-        $discountRate = $isGold ? 0.15 : 0.0;
+        $paramModel = new ParametreModel();
+        $goldReduction = (float) $paramModel->getValue('gold_reduction_taux', 15);
+        $discountRate = $isGold ? (max(0, $goldReduction) / 100) : 0.0;
 
         $recommendations = [];
         foreach ($regimes as $regime) {
@@ -141,7 +155,9 @@ class Dashboard extends BaseController
         }
 
         // IMC category
-        $imc = $profil['imc'] ?? null;
+        $taille = (float) ($profil['taille'] ?? 0);
+        $poids = (float) ($profil['poids'] ?? 0);
+        $imc = ($taille > 0 && $poids > 0) ? round($poids / ($taille * $taille), 2) : ($profil['imc'] ?? null);
         $imcCategory = 'Inconnu';
         if ($imc !== null) {
             $imc = (float) $imc;
@@ -171,6 +187,72 @@ class Dashboard extends BaseController
             'walletBars' => $walletBars,
             'activeRegimes' => $activeRegimes,
             'statsTable' => $statsTable,
+        ]);
+    }
+
+    private function adminDashboard(array $user)
+    {
+        $userModel = new UserModel();
+        $regimeUserModel = new RegimeUserModel();
+        $transactionModel = new PortefeuilleTransactionModel();
+        $codeModel = new PortefeuilleCodeModel();
+
+        $totalUsers = (int) $userModel->countAllResults();
+        $goldUsers = (int) $userModel->where('is_gold', 1)->countAllResults();
+        $regimesAchetes = (int) $regimeUserModel->countAllResults();
+        $codesUtilises = (int) $codeModel->where('utilise', 1)->countAllResults();
+
+        $revenuRegimes = (float) ($transactionModel->selectSum('montant', 'total')->where('type', 'ACHAT_REGIME')->first()['total'] ?? 0);
+        $revenuGold = (float) ($transactionModel->selectSum('montant', 'total')->where('type', 'ACHAT_GOLD')->first()['total'] ?? 0);
+        $revenuTotal = $revenuRegimes + $revenuGold;
+
+        // Préparer séries pour graphiques
+        $db = \Config\Database::connect();
+
+        // Inscriptions des 6 derniers mois (sans dépendre d'une colonne date sur users)
+        $months = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $months[] = date('Y-m', strtotime("-{$i} months"));
+        }
+        $registrationsLabels = $months;
+        $registrationsData = array_fill(0, count($months), 0);
+        $registrationsData[count($registrationsData) - 1] = $totalUsers;
+
+        // Répartition des objectifs
+        $objectifsRows = $db->query("SELECT o.nom, COUNT(*) AS cnt FROM objectifs_users ou JOIN objectifs o ON o.id = ou.objectifs_id GROUP BY o.nom")->getResultArray();
+        $objectifsLabels = array_map(static fn($r) => $r['nom'], $objectifsRows ?: []);
+        $objectifsData = array_map(static fn($r) => (int) $r['cnt'], $objectifsRows ?: []);
+
+        // Top régimes achetés
+        $topRegimesRows = $db->query("SELECT r.nom, COUNT(*) AS cnt FROM regimes_users ru JOIN regimes r ON r.id = ru.regime_id GROUP BY r.nom ORDER BY cnt DESC LIMIT 6")->getResultArray();
+        $topRegimesLabels = array_map(static fn($r) => $r['nom'], $topRegimesRows ?: []);
+        $topRegimesData = array_map(static fn($r) => (int) $r['cnt'], $topRegimesRows ?: []);
+
+        return view('dashboard/admin', [
+            'user' => $user,
+            'stats' => [
+                'total_users' => $totalUsers,
+                'gold_users' => $goldUsers,
+                'regimes_achetes' => $regimesAchetes,
+                'codes_utilises' => $codesUtilises,
+                'revenu_regimes' => $revenuRegimes,
+                'revenu_gold' => $revenuGold,
+                'revenu_total' => $revenuTotal,
+            ],
+            'charts' => [
+                'registrations' => [
+                    'labels' => $registrationsLabels,
+                    'data' => $registrationsData,
+                ],
+                'objectifs' => [
+                    'labels' => $objectifsLabels,
+                    'data' => $objectifsData,
+                ],
+                'topRegimes' => [
+                    'labels' => $topRegimesLabels,
+                    'data' => $topRegimesData,
+                ],
+            ],
         ]);
     }
 

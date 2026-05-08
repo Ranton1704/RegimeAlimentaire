@@ -108,3 +108,5 @@
 - [ ] Remplir la liste des membres du groupe
 - [ ] Renseigner le lien Google Sheet de suivi des tâches
 - [ ] Capturer les screenshots ou preuves de fonctionnement si demandé
+
+comment on fait pour modifier les donne pour les utilisateur 

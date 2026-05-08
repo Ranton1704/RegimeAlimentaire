@@ -1,7 +1,7 @@
 <?= view('layouts/header', ['title' => ($action === 'create' ? 'Créer' : 'Éditer') . ' un régime']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="container admin-page">
+    <div class="card admin-card">
         <h2><?= ($action === 'create' ? 'Créer' : 'Éditer') ?> un régime</h2>
 
         <form method="post" action="<?= $action === 'create' ? '/gestion/regimes/store' : '/gestion/regimes/update/' . ($regime['id'] ?? '') ?>">
@@ -67,10 +67,10 @@
                 </div>
             <?php endif; ?>
 
-            <button class="btn btn-primary" type="submit">Enregistrer</button>
+            <button class="btn btn-primary btn-block" type="submit"><?= ($action === 'create' ? 'Créer' : 'Éditer') ?></button>
         </form>
 
-        <p><a href="/gestion/regimes">Retour</a></p>
+        <p class="back-link"><a href="/gestion/regimes">Retour</a></p>
     </div>
 </div>
 

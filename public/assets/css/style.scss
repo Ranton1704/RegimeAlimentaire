@@ -240,6 +240,13 @@ footer {
     }
 }
 
+// ── Container (non-landing pages) ─────────────────────────────
+.container {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 16px;
+}
+
 // ── Page Layout ─────────────────────────────────────────────
 .page {
     min-height: calc(100vh - 64px);
@@ -449,7 +456,6 @@ select {
 
 // ── Button ───────────────────────────────────────────────────
 .btn {
-    width: 100%;
     padding: 14px;
     border: none;
     border-radius: $radius-md;
@@ -458,11 +464,30 @@ select {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.22s;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 20px;
+    text-decoration: none;
+    background: $green-500;
+    color: #fff;
+
+    &:hover {
+        background: $green-600;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(30, 125, 68, 0.28);
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+
+    &.btn-block {
+        width: 100%;
+        display: flex;
+        margin-top: 20px;
+    }
 
     &.btn-primary {
         background: $green-500;
@@ -505,7 +530,38 @@ select {
 
         &:hover {
             color: $green-600;
-            text-decoration: underline;
+        }
+    }
+}
+
+// ── Back Link ────────────────────────────────────────────────
+.back-link {
+    margin-top: 20px;
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        background: $green-50;
+        color: $green-600;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.18s;
+        border: 1px solid $green-100;
+
+        &:before {
+            content: "←";
+            font-size: 16px;
+        }
+
+        &:hover {
+            background: $green-100;
+            color: $green-600;
+            border-color: $green-100;
+            transform: translateX(-2px);
         }
     }
 }
@@ -764,6 +820,82 @@ fieldset {
     }
 }
 
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.stat-kpi {
+    border: 1px solid $sand-200;
+    background: #fff;
+    border-radius: $radius-md;
+    padding: 12px;
+
+    span {
+        display: block;
+        color: $text-muted;
+        font-size: 12px;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+    }
+
+    strong {
+        font-size: 20px;
+        color: $green-600;
+    }
+}
+
+.admin-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.stats-table-wrap {
+    overflow-x: auto;
+    border: 1px solid $sand-200;
+    border-radius: $radius-md;
+    background: #fff;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 10px 12px;
+        border-bottom: 1px solid $sand-200;
+        text-align: left;
+        font-size: 13px;
+    }
+
+    th {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: $text-muted;
+        background: $sand-50;
+        font-weight: 600;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+}
+
+.admin-page {
+    padding: 28px 0;
+}
+
+.admin-card {
+    max-width: none;
+    width: 100%;
+}
+
 .dashboard-aside .card h4 {
     margin: 0 0 12px;
     font-size: 18px;
@@ -883,10 +1015,602 @@ fieldset {
     white-space: nowrap;
 }
 
+.admin-dashboard {
+    .card-subtitle {
+        margin: 0;
+        color: $text-secondary;
+    }
+
+    .hero-stats {
+        min-width: 320px;
+    }
+}
+
+.admin-charts-grid {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.admin-chart-item {
+    flex: 1;
+    min-width: 280px;
+}
+
+.admin-chart-item--small {
+    flex: 0 0 320px;
+}
+
+.admin-chart-bottom {
+    margin-top: 14px;
+}
+
+// ── Table Styling ───────────────────────────────────────────
+.table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        background: $sand-50;
+        border-bottom: 2px solid $sand-200;
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            color: $text-primary;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid $sand-100;
+            transition: background 0.18s;
+
+            &:hover {
+                background: $sand-50;
+            }
+
+            td {
+                padding: 12px;
+                font-size: 14px;
+                color: $text-primary;
+            }
+        }
+    }
+
+    a {
+        color: $green-600;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.18s;
+
+        &:hover {
+            color: $green-500;
+        }
+    }
+}
+
+// ── Action Links ────────────────────────────────────────────
+.action-links {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        background: $green-50;
+        color: $green-600;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.18s;
+        border: 1px solid $green-100;
+
+        &:hover {
+            background: $green-100;
+            color: $green-600;
+            border-color: $green-100;
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        &[onclick*="confirm"] {
+            background: #fff5f5;
+            color: $danger;
+            border-color: #ffd4d4;
+
+            &:hover {
+                background: #ffebeb;
+                border-color: #ff9999;
+            }
+        }
+    }
+}
+
+// ── Stats Table ──────────────────────────────────────────────
 @media (max-width: 980px) {
     .dashboard-grid { grid-template-columns: 1fr; }
     .cards-row { flex-direction: column; }
     .dashboard-aside { order: 99; }
     .hero-banner { flex-direction: column; align-items: flex-start; }
     .hero-stats { width: 100%; }
+    .admin-chart-item--small { flex: 1; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .admin-kpis { grid-template-columns: 1fr; }
+}
+
+// ── Tablet & Mobile (768px) ──────────────────────────────────
+@media (max-width: 768px) {
+    header {
+        padding: 0 16px;
+    }
+
+    header .brand h1 {
+        font-size: 16px;
+    }
+
+    header nav {
+        gap: 2px;
+
+        a {
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+
+        a.nav-cta {
+            padding: 6px 14px;
+        }
+    }
+
+    .container {
+        padding: 0 12px;
+    }
+
+    .card {
+        max-width: none;
+        padding: 24px 16px 20px;
+        border-radius: 20px;
+    }
+
+    .page {
+        padding: 24px 12px;
+    }
+
+    .card h2 {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    .table {
+        font-size: 13px;
+
+        thead th {
+            padding: 10px 8px;
+            font-size: 12px;
+        }
+
+        tbody td {
+            padding: 10px 8px;
+            font-size: 13px;
+        }
+    }
+
+    .action-links {
+        gap: 6px;
+        flex-direction: column;
+
+        a {
+            width: 100%;
+            justify-content: center;
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+    }
+
+    .btn {
+        padding: 12px;
+        font-size: 14px;
+
+        &.btn-block {
+            margin-top: 16px;
+        }
+    }
+
+    .back-link a {
+        padding: 7px 10px;
+        font-size: 13px;
+    }
+
+    .field {
+        margin-bottom: 14px;
+
+        label {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        input, textarea, select {
+            font-size: 14px;
+            padding: 10px;
+        }
+    }
+
+    .quick-action {
+        padding: 10px 12px;
+        gap: 10px;
+
+        .qa-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 14px;
+        }
+
+        strong {
+            font-size: 13px;
+        }
+
+        small {
+            font-size: 11px;
+        }
+    }
+
+    .stat-kpi {
+        padding: 10px;
+
+        span {
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        strong {
+            font-size: 18px;
+        }
+    }
+
+    .hero-stat {
+        padding: 16px;
+
+        h3 {
+            font-size: 13px;
+        }
+
+        .value {
+            font-size: 22px;
+        }
+    }
+
+    .admin-card h3 {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .admin-page {
+        padding: 16px 0;
+    }
+}
+
+// ── Mobile (480px) ───────────────────────────────────────────
+@media (max-width: 480px) {
+    header {
+        height: 56px;
+        padding: 0 12px;
+    }
+
+    header .brand h1 {
+        font-size: 14px;
+    }
+
+    header .brand h1 .brand-id {
+        font-size: 10px;
+        margin-left: 4px;
+    }
+
+    header nav {
+        gap: 0;
+
+        a {
+            font-size: 12px;
+            padding: 6px 8px;
+        }
+
+        a.nav-cta {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    .card {
+        padding: 20px 14px 16px;
+        border-radius: 16px;
+        max-width: none;
+        margin: 0;
+    }
+
+    .card h2 {
+        font-size: 19px;
+        margin-bottom: 16px;
+    }
+
+    .card-subtitle {
+        font-size: 13px;
+        margin-bottom: 16px;
+    }
+
+    .page {
+        padding: 16px 10px;
+        min-height: auto;
+    }
+
+    .page::before, .page::after {
+        display: none;
+    }
+
+    footer .footer-inner {
+        padding: 14px 12px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    footer .footer-copy {
+        font-size: 11px;
+        order: 3;
+    }
+
+    footer .footer-links {
+        font-size: 11px;
+        flex-wrap: wrap;
+    }
+
+    .table {
+        font-size: 12px;
+
+        thead {
+            display: none;
+        }
+
+        tbody {
+            tr {
+                display: block;
+                border: 1px solid #e0d8c8;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                padding: 12px;
+
+                &:hover {
+                    background: #fff;
+                }
+
+                td {
+                    display: block;
+                    padding: 4px 0;
+                    text-align: left;
+
+                    &::before {
+                        content: attr(data-label);
+                        font-weight: 600;
+                        color: #1e7d44;
+                        display: block;
+                        font-size: 11px;
+                        margin-bottom: 2px;
+                    }
+                }
+            }
+        }
+    }
+
+    .action-links {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+
+        a {
+            width: 100%;
+            justify-content: center;
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+    }
+
+    .btn {
+        padding: 11px;
+        font-size: 13px;
+        width: 100%;
+
+        &.btn-block {
+            margin-top: 14px;
+            width: 100%;
+        }
+    }
+
+    .back-link {
+        margin-top: 14px;
+
+        a {
+            padding: 8px 10px;
+            font-size: 12px;
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    .field {
+        margin-bottom: 12px;
+
+        label {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        input, textarea, select {
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+    }
+
+    .alert-success, .alert-error {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .quick-action {
+        padding: 10px;
+        gap: 8px;
+
+        .qa-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+        }
+
+        strong {
+            font-size: 12px;
+        }
+
+        small {
+            font-size: 11px;
+        }
+    }
+
+    .hero-stat {
+        padding: 14px;
+        min-width: auto;
+
+        h3 {
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 11px;
+            margin: 2px 0 0;
+        }
+    }
+
+    .stat-kpi {
+        padding: 8px;
+
+        span {
+            font-size: 10px;
+            margin-bottom: 2px;
+        }
+
+        strong {
+            font-size: 16px;
+        }
+    }
+
+    .admin-dashboard {
+        .hero-banner {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .hero-stats {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .hero-stat {
+            width: 100%;
+        }
+    }
+
+    .quick-actions {
+        gap: 8px;
+    }
+
+    .cards-row {
+        flex-direction: column;
+        gap: 10px;
+
+        .card {
+            max-width: none;
+            width: 100%;
+        }
+    }
+
+    .admin-charts-grid {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .admin-chart-item {
+        min-width: 100%;
+    }
+
+    fieldset {
+        padding: 14px 12px 6px;
+        margin-bottom: 14px;
+
+        legend {
+            font-size: 11px;
+            padding: 3px 10px 3px 8px;
+
+            .legend-icon {
+                width: 16px;
+                height: 16px;
+
+                svg {
+                    width: 8px;
+                    height: 8px;
+                }
+            }
+        }
+    }
+
+    .steps {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+
+        .step {
+            gap: 6px;
+
+            .dot {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+
+            span {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .transaction-item {
+        padding: 10px;
+        gap: 8px;
+
+        p {
+            font-size: 12px;
+        }
+    }
+
+    .transaction-amount {
+        font-size: 13px;
+    }
 }

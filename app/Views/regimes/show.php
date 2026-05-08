@@ -1,7 +1,7 @@
 <?= view('layouts/header', ['title' => 'Détail du régime']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="container admin-page">
+    <div class="card admin-card">
         <h2><?= esc($regime['nom']) ?></h2>
         <p class="card-subtitle"><?= esc($regime['description']) ?></p>
 
@@ -23,8 +23,8 @@
                 <tbody>
                     <?php foreach ($prices as $price): ?>
                         <tr>
-                            <td><?= esc((string) $price['duree_jours']) ?></td>
-                            <td><?= esc(number_format((float) $price['prix'], 2, ',', ' ')) ?> Ar</td>
+                            <td data-label="Durée (jours)"><?= esc((string) $price['duree_jours']) ?></td>
+                            <td data-label="Prix"><?= esc(number_format((float) $price['prix'], 2, ',', ' ')) ?> Ar</td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -33,7 +33,7 @@
             <p>Aucun prix enregistré.</p>
         <?php endif; ?>
 
-        <p style="margin-top:16px;"><a href="/gestion/regimes">Retour à la liste</a></p>
+        <p class="back-link"><a href="/gestion/regimes">Retour à la liste</a></p>
     </div>
 </div>
 

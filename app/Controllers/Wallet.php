@@ -8,6 +8,7 @@ use App\Models\RegimeModel;
 use App\Models\RegimePrixModel;
 use App\Models\RegimeUserModel;
 use App\Models\UserModel;
+use App\Models\ParametreModel;
 
 class Wallet extends BaseController
 {
@@ -91,7 +92,10 @@ class Wallet extends BaseController
             return redirect()->to('/wallet')->with('error', 'Vous êtes déjà Gold');
         }
 
-        $goldPrice = 50000.00;
+        $goldPrice = (float) (new ParametreModel())->getValue('gold_prix', 50000);
+        if ($goldPrice <= 0) {
+            $goldPrice = 50000.00;
+        }
         $balance = (float) ($user['solde'] ?? 0);
 
         if ($balance < $goldPrice) {

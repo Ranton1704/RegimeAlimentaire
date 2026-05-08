@@ -1,7 +1,7 @@
 <?= view('layouts/header', ['title' => ($action === 'create' ? 'Créer' : 'Éditer') . ' une activité']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="container admin-page">
+    <div class="card admin-card">
         <h2><?= ($action === 'create' ? 'Créer' : 'Éditer') ?> une activité sportive</h2>
 
         <form method="post" action="<?= $action === 'create' ? '/gestion/activites-sportives/store' : '/gestion/activites-sportives/update/' . ($activite['id'] ?? '') ?>">
@@ -34,10 +34,10 @@
                 <textarea name="description"><?= esc($activite['description'] ?? '') ?></textarea>
             </div>
 
-            <button class="btn btn-primary" type="submit">Enregistrer</button>
+            <button class="btn btn-primary btn-block" type="submit">Enregistrer</button>
         </form>
 
-        <p><a href="/gestion/activites-sportives">Retour</a></p>
+        <p class="back-link"><a href="/gestion/activites-sportives">Retour</a></p>
     </div>
 </div>
 

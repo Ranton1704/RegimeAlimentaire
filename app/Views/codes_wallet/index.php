@@ -1,7 +1,7 @@
 <?= view('layouts/header', ['title' => 'Gestion des codes wallet']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="container admin-page">
+    <div class="card admin-card">
         <h2>Codes wallet</h2>
         <p><a href="/gestion/codes-wallet/create" class="btn">Créer un code</a></p>
 
@@ -27,15 +27,17 @@
             <tbody>
                 <?php foreach ($codes as $code): ?>
                     <tr>
-                        <td><?= esc($code['code']) ?></td>
-                        <td><?= esc(number_format((float) $code['montant'], 2, ',', ' ')) ?> Ar</td>
-                        <td><?= esc($code['description'] ?? '') ?></td>
-                        <td><?= !empty($code['utilise']) ? 'Utilisé' : 'Disponible' ?></td>
-                        <td><?= esc($code['used_by_name'] ?? '—') ?></td>
-                        <td><?= esc($code['utilise_le'] ?? '—') ?></td>
-                        <td>
-                            <a href="/gestion/codes-wallet/edit/<?= $code['id'] ?>">Éditer / Valider</a> |
-                            <a href="/gestion/codes-wallet/delete/<?= $code['id'] ?>" onclick="return confirm('Supprimer ce code ?')">Supprimer</a>
+                        <td data-label="Code"><?= esc($code['code']) ?></td>
+                        <td data-label="Montant"><?= esc(number_format((float) $code['montant'], 2, ',', ' ')) ?> Ar</td>
+                        <td data-label="Description"><?= esc($code['description'] ?? '') ?></td>
+                        <td data-label="Statut"><?= !empty($code['utilise']) ? 'Utilisé' : 'Disponible' ?></td>
+                        <td data-label="Utilisé par"><?= esc($code['used_by_name'] ?? '—') ?></td>
+                        <td data-label="Date"><?= esc($code['utilise_le'] ?? '—') ?></td>
+                        <td data-label="Actions">
+                            <span class="action-links">
+                                <a href="/gestion/codes-wallet/edit/<?= $code['id'] ?>">Éditer / Valider</a>
+                                <a href="/gestion/codes-wallet/delete/<?= $code['id'] ?>" onclick="return confirm('Supprimer ce code ?')">Supprimer</a>
+                            </span>
                         </td>
                     </tr>
                 <?php endforeach; ?>

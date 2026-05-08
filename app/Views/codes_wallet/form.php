@@ -1,7 +1,7 @@
 <?= view('layouts/header', ['title' => ($action === 'create' ? 'Créer' : 'Éditer') . ' un code wallet']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="container admin-page">
+    <div class="card admin-card">
         <h2><?= ($action === 'create' ? 'Créer' : 'Éditer') ?> un code wallet</h2>
 
         <?php if (session()->getFlashdata('error')): ?>
@@ -42,10 +42,10 @@
                 </select>
             </div>
 
-            <button class="btn btn-primary" type="submit">Enregistrer</button>
+            <button class="btn btn-primary btn-block" type="submit">Enregistrer</button>
         </form>
 
-        <p><a href="/gestion/codes-wallet">Retour</a></p>
+        <p class="back-link"><a href="/gestion/codes-wallet">Retour</a></p>
     </div>
 </div>
 

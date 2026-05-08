@@ -1,7 +1,7 @@
 <?= view('layouts/header', ['title' => ($action === 'create' ? 'Créer' : 'Éditer') . ' un paramètre']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="container admin-page">
+    <div class="card admin-card">
         <h2><?= ($action === 'create' ? 'Créer' : 'Éditer') ?> un paramètre</h2>
 
         <?php if (session()->getFlashdata('error')): ?>
@@ -21,10 +21,10 @@
                 <input type="text" name="valeur" value="<?= esc($parametre['valeur'] ?? '') ?>" required>
             </div>
 
-            <button class="btn btn-primary" type="submit">Enregistrer</button>
+            <button class="btn btn-primary btn-block" type="submit">Enregistrer</button>
         </form>
 
-        <p><a href="/gestion/parametres">Retour</a></p>
+        <p class="back-link"><a href="/gestion/parametres">Retour</a></p>
     </div>
 </div>
 

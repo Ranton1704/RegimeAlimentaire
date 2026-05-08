@@ -1,7 +1,7 @@
 <?= view('layouts/header', ['title' => 'Gestion des paramètres']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="container admin-page">
+    <div class="card admin-card">
         <h2>Paramètres</h2>
         <p><a href="/gestion/parametres/create" class="btn">Créer un paramètre</a></p>
 
@@ -12,27 +12,37 @@
             <div class="alert-error visible"><?= esc(session()->getFlashdata('error')) ?></div>
         <?php endif; ?>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Clé</th>
-                    <th>Valeur</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($parametres as $parametre): ?>
+        <div class="stats-table-wrap">
+            <table class="stats-table">
+                <thead>
                     <tr>
-                        <td><?= esc($parametre['cle']) ?></td>
-                        <td><?= esc($parametre['valeur']) ?></td>
-                        <td>
-                            <a href="/gestion/parametres/edit/<?= $parametre['id'] ?>">Éditer</a> |
-                            <a href="/gestion/parametres/delete/<?= $parametre['id'] ?>" onclick="return confirm('Supprimer ce paramètre ?')">Supprimer</a>
-                        </td>
+                        <th>Clé</th>
+                        <th>Valeur</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php if (!empty($parametres)): ?>
+                        <?php foreach ($parametres as $parametre): ?>
+                            <tr>
+                                <td data-label="Clé"><?= esc($parametre['cle']) ?></td>
+                                <td data-label="Valeur"><?= esc($parametre['valeur']) ?></td>
+                                <td data-label="Actions">
+                                    <span class="action-links">
+                                        <a href="/gestion/parametres/edit/<?= (int) $parametre['id'] ?>">Éditer</a>
+                                        <a href="/gestion/parametres/delete/<?= (int) $parametre['id'] ?>" onclick="return confirm('Supprimer ce paramètre ?')">Supprimer</a>
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="3">Aucun paramètre</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

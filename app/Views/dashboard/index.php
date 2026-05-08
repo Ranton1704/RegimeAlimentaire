@@ -156,10 +156,10 @@
                             <?php if (!empty($statsTable)) : ?>
                                 <?php foreach ($statsTable as $row) : ?>
                                     <tr>
-                                        <td><?= esc($row['regime']) ?></td>
-                                        <td><?= esc((string) $row['duree']) ?></td>
-                                        <td><?= esc(number_format((float) $row['prix'], 2, ',', ' ')) ?></td>
-                                        <td><?= esc(number_format((float) $row['variation'], 2, ',', ' ')) ?></td>
+                                        <td data-label="Régime"><?= esc($row['regime']) ?></td>
+                                        <td data-label="Durée (jours)"><?= esc((string) $row['duree']) ?></td>
+                                        <td data-label="Prix (Ar)"><?= esc(number_format((float) $row['prix'], 2, ',', ' ')) ?></td>
+                                        <td data-label="Variation (kg)"><?= esc(number_format((float) $row['variation'], 2, ',', ' ')) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>

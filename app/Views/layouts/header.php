@@ -26,13 +26,17 @@
 
     <nav>
         <?php if (session()->get('isLoggedIn')): ?>
+            <?php $isAdmin = strtoupper((string) (session()->get('role') ?? 'USER')) === 'ADMIN'; ?>
             <a href="/dashboard" class="<?= (current_url(true)->getPath() === '/dashboard') ? 'active' : '' ?>">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                     <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
                 </svg>
-                Dashboard
+                <?= $isAdmin ? 'Admin' : 'Dashboard' ?>
             </a>
+            <?php if ($isAdmin): ?>
+                <a href="/gestion/parametres" class="<?= (str_contains(current_url(true)->getPath(), '/gestion/parametres')) ? 'active' : '' ?>">Paramètres</a>
+            <?php endif; ?>
             <a href="/logout" class="nav-logout">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
