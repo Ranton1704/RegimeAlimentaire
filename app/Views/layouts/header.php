@@ -37,12 +37,14 @@
             <?php if ($isAdmin): ?>
                 <a href="/gestion/parametres" class="<?= (str_contains(current_url(true)->getPath(), '/gestion/parametres')) ? 'active' : '' ?>">Paramètres</a>
             <?php endif; ?>
-            <a href="/profil" class="<?= (str_contains(current_url(true)->getPath(), '/profil')) ? 'active' : '' ?>">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-                Profil
-            </a>
+            <?php if (!$isAdmin): ?>
+                <a href="/profil" class="<?= (str_contains(current_url(true)->getPath(), '/profil')) ? 'active' : '' ?>">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    Profil
+                </a>
+            <?php endif; ?>
             <a href="/logout" class="nav-logout">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>

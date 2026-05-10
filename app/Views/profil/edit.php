@@ -25,7 +25,7 @@
                     </div>
                 </div>
 
-                <form method="post" action="/profil/update">
+                <form method="post" action="/profil/update" class="profile-edit-form">
                     <?= csrf_field() ?>
 
                     <!-- SECTION 1: INFORMATIONS PERSONNELLES -->
