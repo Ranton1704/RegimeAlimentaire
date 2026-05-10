@@ -92,7 +92,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (passwordToggle) {
-        passwordToggle.addEventListener("click", togglePasswordVisibility);
+        passwordToggle.addEventListener("pointerdown", function (event) {
+            event.preventDefault();
+        });
+
+        passwordToggle.addEventListener("click", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            togglePasswordVisibility();
+        });
     }
 
     form.addEventListener("submit", function (event) {

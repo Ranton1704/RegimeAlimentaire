@@ -129,16 +129,22 @@ class Auth extends BaseController
         $userModel = new UserModel();
         $profilSanteModel = new ProfilSanteModel();
 
-        $data = array_merge(
-            session()->get('step1'),
-            $this->request->getPost()
-        );
+        // Extract user data (only for users table)
+        $step1 = session()->get('step1') ?? [];
+        $userData = [
+            'nom' => $step1['nom'] ?? '',
+            'prenom' => $step1['prenom'] ?? '',
+            'email' => $step1['email'] ?? '',
+            'genre' => $step1['genre'] ?? '',
+            'date_naissance' => $step1['date_naissance'] ?? '',
+        ];
 
-        $data['mot_de_passe'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        unset($data['password']);
-        unset($data['date_naissance']);
+        $userData['mot_de_passe'] = password_hash($step1['password'] ?? '', PASSWORD_DEFAULT);
 
-        $userModel->save($data);
+        // Insert user (use insert() instead of save() to avoid conflicts)
+        if (!$userModel->insert($userData)) {
+            return redirect()->to('/register-step1')->with('error', 'Impossible de créer le compte');
+        }
 
         $userId = $userModel->getInsertID();
         if (!$userId) {
@@ -149,7 +155,6 @@ class Auth extends BaseController
         $poids = (float) $this->request->getPost('poids');
         $imc = $taille > 0 ? round($poids / ($taille * $taille), 2) : 0;
 
-        $step1 = session()->get('step1') ?? [];
         $dateNaissance = $step1['date_naissance'] ?? null;
         $age = 18;
 

@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const passwordToggle = document.getElementById("passwordToggle");
     const passwordFieldShell = document.querySelector(".password-field-shell");
     const passwordInput = document.getElementById("password");
+    const storageKey = 'register:step1';
 
     if(pageRegister){
         pageRegister.classList.add("is-entering");
@@ -18,6 +19,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     if(!form && !formStep2) return;
 
+    // Clear sessionStorage when loading step1 (unless there's an error to show)
+    if(form && !error.innerText.trim()){
+        try{ sessionStorage.removeItem(storageKey); }catch(e){}
+    }
+
     const getAlertContent = function(alertElement){
         if(!alertElement) return null;
         return alertElement.querySelector(".alert-content") || alertElement;
@@ -25,12 +31,14 @@ document.addEventListener("DOMContentLoaded", function(){
 
     const setFieldState = function(input, isValid){
         if(!input) return;
-        input.classList.remove("is-invalid", "is-valid");
+        // prefer to toggle state on the field container for consistent CSS
+        const container = input.closest('.field') || input;
+        container.classList.remove("is-invalid", "is-valid");
         if(isValid === true){
-            input.classList.add("is-valid");
+            container.classList.add("is-valid");
         }
         if(isValid === false){
-            input.classList.add("is-invalid");
+            container.classList.add("is-invalid");
         }
     };
 
@@ -106,19 +114,88 @@ document.addEventListener("DOMContentLoaded", function(){
         currentForm.submit();
     };
 
+    // storage helpers for multi-step form
+    const saveStep1ToStorage = function(){
+        try{
+            const data = {
+                nom: (document.getElementById('nom')||{}).value || '',
+                prenom: (document.getElementById('prenom')||{}).value || '',
+                email: (document.getElementById('email')||{}).value || '',
+                genre: (document.getElementById('genre')||{}).value || '',
+                date_naissance: (document.getElementById('date_naissance')||{}).value || ''
+            };
+            sessionStorage.setItem(storageKey, JSON.stringify(data));
+        }catch(err){ /* ignore */ }
+    };
+
+    const restoreStep1FromStorage = function(){
+        try{
+            const raw = sessionStorage.getItem(storageKey);
+            if(!raw) return false;
+            const data = JSON.parse(raw);
+            if(document.getElementById('nom')) document.getElementById('nom').value = data.nom || '';
+            if(document.getElementById('prenom')) document.getElementById('prenom').value = data.prenom || '';
+            if(document.getElementById('email')) document.getElementById('email').value = data.email || '';
+            if(document.getElementById('genre')) document.getElementById('genre').value = data.genre || '';
+            if(document.getElementById('date_naissance')) document.getElementById('date_naissance').value = data.date_naissance || '';
+            // refresh states
+            const evt = new Event('input', { bubbles: true });
+            ['nom','prenom','email','password','genre','date_naissance'].forEach(function(id){
+                const el = document.getElementById(id);
+                if(el) el.dispatchEvent(evt);
+            });
+            // ensure date overlay updates
+            if(dateInput) dateInput.dispatchEvent(new Event('change'));
+            return true;
+        }catch(e){ return false; }
+    };
+
     if(formStep2){
         formStep2.addEventListener("submit", function(){
             if(pageRegister){
                 pageRegister.classList.add("is-leaving");
             }
         });
+        // bind previous button if present
+        const prevBtn = document.getElementById('prevStepBtn');
+        if(prevBtn){
+            prevBtn.addEventListener('click', function(e){
+                e.preventDefault();
+                // navigate back to step1 — values are saved in sessionStorage
+                window.location.href = '/register-step1';
+            });
+        }
     }
 
     if(passwordToggle){
-        passwordToggle.addEventListener("click", togglePasswordVisibility);
+        passwordToggle.addEventListener("pointerdown", function(e){ e.preventDefault(); });
+        passwordToggle.addEventListener("click", function(e){ e.preventDefault(); togglePasswordVisibility(); });
+    }
+
+    // date icon focuses the date input
+    const dateIcon = document.querySelector('.date-wrap .date-icon');
+    const dateInput = document.getElementById('date_naissance');
+    if(dateIcon && dateInput){
+        dateIcon.addEventListener('click', function(e){ e.preventDefault(); dateInput.focus(); });
+    }
+
+    // manage sample placeholder overlay (hide when value present)
+    const dateWrap = document.querySelector('.date-wrap');
+    if(dateInput && dateWrap){
+        const refreshDateState = function(){
+            if(dateInput.value && dateInput.value.trim() !== '') dateWrap.classList.add('has-value');
+            else dateWrap.classList.remove('has-value');
+        };
+        dateInput.addEventListener('change', refreshDateState);
+        dateInput.addEventListener('input', refreshDateState);
+        // initial
+        refreshDateState();
     }
 
     if(!form) return;
+
+    // attempt to restore saved values when returning to step1
+    try{ restoreStep1FromStorage(); }catch(e){}
 
     ["nom", "prenom", "email", "password", "genre", "date_naissance"].forEach(function(fieldId){
         const field = document.getElementById(fieldId);
@@ -138,6 +215,17 @@ document.addEventListener("DOMContentLoaded", function(){
         field.addEventListener("input", validate);
         field.addEventListener("blur", validate);
     });
+
+    // keep step1 values in storage as the user types, so the previous button is reliable
+    ["nom", "prenom", "email", "genre", "date_naissance"].forEach(function(fieldId){
+        const field = document.getElementById(fieldId);
+        if(!field) return;
+        field.addEventListener('input', saveStep1ToStorage);
+        field.addEventListener('change', saveStep1ToStorage);
+    });
+    if(dateInput){
+        dateInput.addEventListener('change', saveStep1ToStorage);
+    }
 
     form.addEventListener("submit", function(e){
         e.preventDefault();
@@ -164,6 +252,8 @@ document.addEventListener("DOMContentLoaded", function(){
             return;
         }
 
+        // save current values so step2 (or previous) can restore them
+        saveStep1ToStorage();
         animateAndSubmit(form);
     });
 

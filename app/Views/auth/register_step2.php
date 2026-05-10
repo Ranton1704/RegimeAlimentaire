@@ -1,7 +1,14 @@
 <?= view('layouts/header', ['title' => 'Inscription — Étape 2']) ?>
 
-<div class="page">
-    <div class="card">
+<div class="page auth-page page-register">
+    <div class="auth-layout">
+        <section class="auth-hero">
+            <div class="auth-kicker">Inscription</div>
+            <h2>Vos données de santé</h2>
+            <p>Utilisées pour calculer votre programme nutritionnel personnalisé.</p>
+        </section>
+
+        <div class="card auth-card">
 
         <div class="steps">
             <div class="step done">
@@ -15,12 +22,9 @@
             </div>
         </div>
 
-        <h2>Vos données de santé</h2>
-        <p class="card-subtitle">Utilisées pour calculer votre programme nutritionnel personnalisé.</p>
-
         <div class="alert-error" id="error"><?= session()->getFlashdata('error') ?? '' ?></div>
 
-        <form method="post" action="/register-step2">
+        <form id="step2Form" method="post" action="/register-step2">
             <?= csrf_field() ?>
 
             <fieldset>
@@ -59,14 +63,20 @@
                 </div>
             </fieldset>
 
-            <button type="submit" class="btn btn-primary">
-                Terminer l'inscription
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"/>
-                </svg>
-            </button>
+            <div class="form-actions form-actions-compact">
+                <button type="button" id="prevStepBtn" class="btn btn-secondary">
+                    Précédent
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    Terminer l'inscription
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </button>
+            </div>
         </form>
 
+        </div>
     </div>
 </div>
 
