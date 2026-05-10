@@ -1,15 +1,20 @@
 <?= view('layouts/header', ['title' => 'Dashboard']) ?>
 
-<div class="container">
+<div class="container dashboard-page">
 
     <div class="dashboard-grid">
         <div class="dashboard-main">
             <?php if (!empty($profil)) : ?>
-                <div class="hero-banner card">
-                    <div>
+                <div class="hero-banner card dashboard-hero">
+                    <div class="hero-copy">
                         <div class="card-eyebrow">Programme personnalisé</div>
                         <h2>Bonjour <?= esc($user['prenom'] ?? 'utilisateur') ?> 👋</h2>
-                        <p class="card-subtitle">Votre profil, vos objectifs et vos suggestions sont regroupés ici.</p>
+                        <p class="card-subtitle">Tout votre parcours est réuni ici, dans un espace clair et simple à parcourir.</p>
+                        <div class="hero-pills">
+                            <span class="hero-pill">Objectifs suivis: <?= esc((string) count($objectifs ?? [])) ?></span>
+                            <span class="hero-pill">Actions rapides</span>
+                            <span class="hero-pill">Conseils adaptés</span>
+                        </div>
                     </div>
                     <div class="hero-stats">
                         <div class="hero-stat">
@@ -24,7 +29,7 @@
                 </div>
             <?php endif; ?>
 
-            <div class="cards-row">
+            <div class="cards-row dashboard-kpis">
                 <div class="card small">
                     <h3>IMC</h3>
                     <?php if (!empty($profil)) : ?>
@@ -62,16 +67,20 @@
             </div>
 
             <div class="card">
-                <h3>Recommandations</h3>
-                <p>Basées sur vos objectifs et IMC</p>
+                <div class="section-header">
+                    <div>
+                        <h3>Recommandations</h3>
+                        <p>Des choix simples, adaptés à votre profil.</p>
+                    </div>
+                </div>
 
                 <?php if (!empty($recommendations)) : ?>
-                    <div class="recommendations">
+                    <div class="recommendations dashboard-cards">
                         <?php foreach ($recommendations as $item) :
                             $regime = $item['regime']; ?>
                             <div class="regime">
                                 <h4><?= esc($regime['nom']) ?></h4>
-                                <p><?= esc($regime['description']) ?></p>
+                                <p class="muted-clamp"><?= esc($regime['description']) ?></p>
                                 <div class="regime-meta">
                                     <span>Variation: <?= esc((string) $regime['variation_poids']) ?></span>
                                     <?php if (!empty($item['prix'])): ?>
@@ -96,15 +105,19 @@
             </div>
 
             <div class="card">
-                <h3>Activités sportives conseillées</h3>
-                <p>Activités liées à vos objectifs sélectionnés</p>
+                <div class="section-header">
+                    <div>
+                        <h3>Activités sportives conseillées</h3>
+                        <p>Des activités faciles à comprendre et à lancer.</p>
+                    </div>
+                </div>
 
                 <?php if (!empty($activities)) : ?>
-                    <div class="recommendations">
+                    <div class="recommendations dashboard-cards">
                         <?php foreach ($activities as $activity) : ?>
                             <div class="regime activity-card">
                                 <h4><?= esc($activity['nom']) ?></h4>
-                                <p><?= esc($activity['description']) ?></p>
+                                <p class="muted-clamp"><?= esc($activity['description']) ?></p>
                                 <div class="regime-meta">
                                     <span>Durée: <?= esc((string) ($activity['duree_minutes'] ?? 0)) ?> min</span>
                                 </div>
@@ -117,8 +130,12 @@
             </div>
 
             <div class="card">
-                <h3>Statistiques</h3>
-                <p>Graphes et tableau de suivi de vos actions</p>
+                <div class="section-header">
+                    <div>
+                        <h3>Statistiques</h3>
+                        <p>Un suivi rapide de votre activité.</p>
+                    </div>
+                </div>
 
                 <div class="stats-grid">
                     <div class="stat-kpi">
@@ -135,16 +152,27 @@
                     </div>
                 </div>
 
-                <div class="stats-bars">
-                    <div class="stats-bar-row">
-                        <span>Régimes</span>
-                        <div class="stats-bar-track"><div class="stats-bar-fill" style="width: <?= esc((string) ($walletBars['regimes'] ?? 0)) ?>%"></div></div>
-                        <strong><?= esc(number_format((float) ($walletStats['achat_regime'] ?? 0), 2, ',', ' ')) ?> Ar</strong>
-                    </div>
-                    <div class="stats-bar-row">
-                        <span>Gold</span>
-                        <div class="stats-bar-track"><div class="stats-bar-fill" style="width: <?= esc((string) ($walletBars['gold'] ?? 0)) ?>%"></div></div>
-                        <strong><?= esc(number_format((float) ($walletStats['achat_gold'] ?? 0), 2, ',', ' ')) ?> Ar</strong>
+                <div class="stats-spend">
+                    <h4>Repartition des depenses</h4>
+                    <div class="stats-bars">
+                        <div class="stats-bar-row">
+                            <div class="stats-bar-head">
+                                <span class="stats-label">Regimes</span>
+                                <strong><?= esc(number_format((float) ($walletStats['achat_regime'] ?? 0), 2, ',', ' ')) ?> Ar</strong>
+                            </div>
+                            <div class="stats-bar-track">
+                                <div class="stats-bar-fill" style="width: <?= esc((string) ($walletBars['regimes'] ?? 0)) ?>%"></div>
+                            </div>
+                        </div>
+                        <div class="stats-bar-row">
+                            <div class="stats-bar-head">
+                                <span class="stats-label">Gold</span>
+                                <strong><?= esc(number_format((float) ($walletStats['achat_gold'] ?? 0), 2, ',', ' ')) ?> Ar</strong>
+                            </div>
+                            <div class="stats-bar-track gold">
+                                <div class="stats-bar-fill" style="width: <?= esc((string) ($walletBars['gold'] ?? 0)) ?>%"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -179,11 +207,15 @@
             </div>
 
             <div class="card">
-                <h3>Estimation d'évolution du poids</h3>
-                <p>Simulation basée sur les régimes recommandés</p>
+                <div class="section-header">
+                    <div>
+                        <h3>Évolution estimée</h3>
+                        <p>Une projection simple pour mieux vous guider.</p>
+                    </div>
+                </div>
 
                 <?php if (!empty($weightForecast)) : ?>
-                    <div class="recommendations">
+                    <div class="recommendations dashboard-cards">
                         <?php foreach ($weightForecast as $forecast) : ?>
                             <div class="regime forecast-card">
                                 <h4><?= esc($forecast['regime']['nom']) ?></h4>
@@ -203,17 +235,22 @@
 
         <aside class="dashboard-aside">
             <div class="card">
-                <h4>Actions rapides</h4>
+                <div class="section-header">
+                    <div>
+                        <h4>Actions rapides</h4>
+                        <p>Les raccourcis les plus utiles.</p>
+                    </div>
+                </div>
                 <div class="quick-actions">
                     <a class="quick-action" href="/export/pdf">
-                        <span class="qa-icon">PDF</span>
+                        <span class="qa-icon">⇩</span>
                         <span>
                             <strong>Exporter</strong>
                             <small>Profil complet</small>
                         </span>
                     </a>
                     <a class="quick-action" href="/buy-gold">
-                        <span class="qa-icon">★</span>
+                        <span class="qa-icon">✦</span>
                         <span>
                             <strong>Gold</strong>
                             <small>Débloquer -15%</small>
@@ -227,7 +264,7 @@
                         </span>
                     </a>
                     <a class="quick-action danger" href="/logout">
-                        <span class="qa-icon">↩</span>
+                        <span class="qa-icon">⟲</span>
                         <span>
                             <strong>Quitter</strong>
                             <small>Déconnexion</small>

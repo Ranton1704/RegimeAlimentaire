@@ -52,76 +52,149 @@ class Export extends BaseController
         $goldReductionLabel = (int) (new ParametreModel())->getValue('reduction_gold', 15);
 
         $pdf = new \FPDF();
-        $pdf->AddPage();
-        $pdf->SetAutoPageBreak(true, 15);
         $pdf->SetMargins(15, 15, 15);
+        $pdf->SetAutoPageBreak(true, 15);
+        $pdf->AddPage();
 
+        $toPdf = static function ($value): string {
+            $text = trim((string) $value);
+            if ($text === '') {
+                return '-';
+            }
+            $text = preg_replace('/\s+/u', ' ', $text) ?? $text;
+            return utf8_decode($text);
+        };
+
+        $drawSectionTitle = static function (\FPDF $pdfInstance, string $title) use ($toPdf): void {
+            $pdfInstance->Ln(4);
+            $pdfInstance->SetFillColor(240, 250, 244);
+            $pdfInstance->SetTextColor(30, 125, 68);
+            $pdfInstance->SetFont('Arial', 'B', 12);
+            $pdfInstance->Cell(0, 9, '  ' . $toPdf($title), 0, 1, 'L', true);
+            $pdfInstance->SetTextColor(35, 43, 40);
+            $pdfInstance->Ln(1);
+        };
+
+        $drawMetaLine = static function (\FPDF $pdfInstance, string $label, string $value) use ($toPdf): void {
+            $pdfInstance->SetFont('Arial', 'B', 10);
+            $pdfInstance->SetTextColor(90, 99, 96);
+            $pdfInstance->Cell(34, 7, $toPdf($label), 0, 0);
+            $pdfInstance->SetFont('Arial', '', 10);
+            $pdfInstance->SetTextColor(26, 31, 28);
+            $pdfInstance->Cell(0, 7, $toPdf($value), 0, 1);
+        };
+
+        $drawCard = static function (\FPDF $pdfInstance, string $title, string $description, string $meta) use ($toPdf): void {
+            $pdfInstance->SetFillColor(252, 252, 250);
+            $pdfInstance->SetDrawColor(224, 216, 200);
+            $pdfInstance->SetLineWidth(0.2);
+
+            $startX = $pdfInstance->GetX();
+            $startY = $pdfInstance->GetY();
+            $cardWidth = 180;
+
+            $pdfInstance->Rect($startX, $startY, $cardWidth, 24, 'DF');
+            $pdfInstance->SetXY($startX + 3, $startY + 2);
+
+            $pdfInstance->SetFont('Arial', 'B', 10);
+            $pdfInstance->SetTextColor(26, 31, 28);
+            $pdfInstance->Cell($cardWidth - 6, 6, $toPdf($title), 0, 1, 'L');
+
+            $pdfInstance->SetFont('Arial', '', 9);
+            $pdfInstance->SetTextColor(90, 99, 96);
+            $pdfInstance->SetX($startX + 3);
+            $pdfInstance->MultiCell($cardWidth - 6, 5, $toPdf($description), 0, 'L');
+
+            $pdfInstance->SetFont('Arial', '', 9);
+            $pdfInstance->SetTextColor(30, 125, 68);
+            $pdfInstance->SetX($startX + 3);
+            $pdfInstance->Cell($cardWidth - 6, 5, $toPdf($meta), 0, 1, 'L');
+
+            $pdfInstance->SetY(max($pdfInstance->GetY() + 1, $startY + 26));
+        };
+
+        $pdf->SetFillColor(30, 125, 68);
+        $pdf->SetDrawColor(30, 125, 68);
+        $pdf->Rect(15, 15, 180, 24, 'F');
+
+        $pdf->SetXY(20, 21);
+        $pdf->SetTextColor(255, 255, 255);
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(0, 10, utf8_decode('Regime Santé - Export Profil'), 0, 1, 'C');
-        $pdf->Ln(2);
+        $pdf->Cell(0, 6, $toPdf('Regime Sante - Profil utilisateur'), 0, 1, 'L');
 
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 8, utf8_decode('Utilisateur : ' . ($user['prenom'] ?? '') . ' ' . ($user['nom'] ?? '')), 0, 1);
-        $pdf->Cell(0, 8, utf8_decode('Email : ' . ($user['email'] ?? '')), 0, 1);
-        $pdf->Cell(0, 8, utf8_decode('Genre : ' . ($user['genre'] ?? '')), 0, 1);
+        $pdf->SetX(20);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Cell(0, 6, $toPdf('Export genere le ' . date('d/m/Y a H:i')), 0, 1, 'L');
 
+        $pdf->SetTextColor(26, 31, 28);
+        $pdf->SetY(44);
+
+        $drawSectionTitle($pdf, 'Informations personnelles');
+        $drawMetaLine($pdf, 'Utilisateur', trim((string) (($user['prenom'] ?? '') . ' ' . ($user['nom'] ?? ''))));
+        $drawMetaLine($pdf, 'Email', (string) ($user['email'] ?? '-'));
+        $drawMetaLine($pdf, 'Genre', (string) ($user['genre'] ?? '-'));
         if (!empty($profil)) {
-            $pdf->Cell(0, 8, utf8_decode('Taille : ' . $profil['taille'] . ' m'), 0, 1);
-            $pdf->Cell(0, 8, utf8_decode('Poids : ' . $profil['poids'] . ' kg'), 0, 1);
-            $pdf->Cell(0, 8, utf8_decode('Age : ' . $profil['age']), 0, 1);
-            $pdf->Cell(0, 8, utf8_decode('IMC : ' . $profil['imc']), 0, 1);
+            $drawMetaLine($pdf, 'Taille', (string) $profil['taille'] . ' m');
+            $drawMetaLine($pdf, 'Poids', (string) $profil['poids'] . ' kg');
+            $drawMetaLine($pdf, 'Age', (string) $profil['age']);
+            $drawMetaLine($pdf, 'IMC', (string) $profil['imc']);
         }
 
-        $pdf->Ln(4);
-        $pdf->SetFont('Arial', 'B', 13);
-        $pdf->Cell(0, 8, utf8_decode('Objectifs'), 0, 1);
-        $pdf->SetFont('Arial', '', 11);
-        foreach ($objectifs as $objectif) {
-            $pdf->Cell(0, 7, utf8_decode('- ' . $objectif['nom']), 0, 1);
-        }
-
-        $pdf->Ln(3);
-        $pdf->SetFont('Arial', 'B', 13);
-        $pdf->Cell(0, 8, utf8_decode('Régimes recommandés'), 0, 1);
+        $drawSectionTitle($pdf, 'Objectifs');
         $pdf->SetFont('Arial', '', 10);
-        foreach ($regimes as $regime) {
-            $price = $regimePrixModel->where('regime_id', (int) $regime['id'])->orderBy('prix', 'ASC')->first();
-            $basePrice = (float) ($price['prix'] ?? 0);
-            $finalPrice = round($basePrice * (1 - $discountRate), 2);
-            $line = sprintf(
-                '%s | %s | Variation: %s kg | Prix: %s Ar%s | Durée: %s jours',
-                $regime['nom'],
-                $regime['description'],
-                $regime['variation_poids'],
-                number_format($finalPrice, 2, ',', ' '),
-                $isGold ? ' (remise Gold -' . $goldReductionLabel . '%)' : '',
-                $price['duree_jours'] ?? 'N/A'
-            );
-            $pdf->MultiCell(0, 6, utf8_decode($line));
+        $pdf->SetTextColor(26, 31, 28);
+        if (empty($objectifs)) {
+            $pdf->Cell(0, 7, $toPdf('Aucun objectif selectionne.'), 0, 1);
+        } else {
+            foreach ($objectifs as $objectif) {
+                $pdf->Cell(0, 7, $toPdf('- ' . ($objectif['nom'] ?? 'Objectif')), 0, 1);
+            }
         }
 
-        $pdf->Ln(3);
-        $pdf->SetFont('Arial', 'B', 13);
-        $pdf->Cell(0, 8, utf8_decode('Activités sportives recommandées'), 0, 1);
-        $pdf->SetFont('Arial', '', 10);
-        foreach ($activities as $activity) {
-            $line = sprintf(
-                '%s | %s | Durée: %s min',
-                $activity['nom'],
-                $activity['description'],
-                $activity['duree_minutes'] ?? 'N/A'
-            );
-            $pdf->MultiCell(0, 6, utf8_decode($line));
+        $drawSectionTitle($pdf, 'Regimes recommandes');
+        if (empty($regimes)) {
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 7, $toPdf('Aucun regime recommande pour le moment.'), 0, 1);
+        } else {
+            foreach ($regimes as $regime) {
+                $price = $regimePrixModel->where('regime_id', (int) $regime['id'])->orderBy('prix', 'ASC')->first();
+                $basePrice = (float) ($price['prix'] ?? 0);
+                $finalPrice = round($basePrice * (1 - $discountRate), 2);
+                $meta = 'Variation: ' . ($regime['variation_poids'] ?? 'N/A')
+                    . ' kg  |  Prix: ' . number_format($finalPrice, 2, ',', ' ') . ' Ar'
+                    . ($isGold ? ' (Gold -' . $goldReductionLabel . '%)' : '')
+                    . '  |  Duree: ' . ($price['duree_jours'] ?? 'N/A') . ' jours';
+
+                $drawCard(
+                    $pdf,
+                    (string) ($regime['nom'] ?? 'Regime'),
+                    (string) ($regime['description'] ?? ''),
+                    $meta
+                );
+            }
         }
 
-        $pdf->Ln(3);
-        $pdf->SetFont('Arial', 'B', 13);
-        $pdf->Cell(0, 8, utf8_decode('Résumé'), 0, 1);
-        $pdf->SetFont('Arial', '', 11);
-        $pdf->Cell(0, 7, utf8_decode('Solde wallet : ' . ($user['solde'] ?? 0) . ' Ar'), 0, 1);
-        $pdf->Cell(0, 7, utf8_decode('Statut Gold : ' . (!empty($user['is_gold']) ? 'Oui' : 'Non')), 0, 1);
+        $drawSectionTitle($pdf, 'Activites sportives recommandees');
+        if (empty($activities)) {
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 7, $toPdf('Aucune activite disponible pour le moment.'), 0, 1);
+        } else {
+            foreach ($activities as $activity) {
+                $meta = 'Duree: ' . ($activity['duree_minutes'] ?? 'N/A') . ' min';
+                $drawCard(
+                    $pdf,
+                    (string) ($activity['nom'] ?? 'Activite'),
+                    (string) ($activity['description'] ?? ''),
+                    $meta
+                );
+            }
+        }
+
+        $drawSectionTitle($pdf, 'Resume');
+        $drawMetaLine($pdf, 'Solde wallet', number_format((float) ($user['solde'] ?? 0), 2, ',', ' ') . ' Ar');
+        $drawMetaLine($pdf, 'Statut Gold', !empty($user['is_gold']) ? 'Oui' : 'Non');
         if ($isGold) {
-            $pdf->Cell(0, 7, utf8_decode('Remise appliquée sur les régimes : ' . $goldReductionLabel . '%'), 0, 1);
+            $drawMetaLine($pdf, 'Remise Gold', (string) $goldReductionLabel . '% sur les regimes');
         }
 
         $pdf->Output('I', 'export-regime-sante.pdf');
