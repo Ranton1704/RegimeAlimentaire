@@ -30,14 +30,14 @@ class Auth extends BaseController
         $storedPassword = $user['mot_de_passe'] ?? $user['password'] ?? null;
 
         if (!$user || !$storedPassword) {
-            return redirect()->to('/login')->with('error', 'Email ou mot de passe incorrect');
+            return redirect()->to('/login')->withInput()->with('error', 'Email ou mot de passe incorrect');
         }
 
         $isValidPassword = password_verify($password, $storedPassword)
             || hash_equals((string) $storedPassword, (string) $password);
 
         if (!$isValidPassword) {
-            return redirect()->to('/login')->with('error', 'Email ou mot de passe incorrect');
+            return redirect()->to('/login')->withInput()->with('error', 'Email ou mot de passe incorrect');
         }
 
         if (!password_get_info($storedPassword)['algo']) {
@@ -47,7 +47,7 @@ class Auth extends BaseController
         }
 
         if (!isset($user['id'])) {
-            return redirect()->to('/')->with('error', 'Email ou mot de passe incorrect');
+            return redirect()->to('/')->withInput()->with('error', 'Email ou mot de passe incorrect');
         }
 
         session()->set([

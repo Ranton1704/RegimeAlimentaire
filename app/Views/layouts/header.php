@@ -51,10 +51,7 @@
                 Déconnexion
             </a>
         <?php else: ?>
-            <a href="/" class="<?= (current_url(true)->getPath() === '/') ? 'active' : '' ?>">Connexion</a>
-            <a href="/register-step1" class="nav-cta <?= (str_contains(current_url(true)->getPath(), 'register')) ? 'active' : '' ?>">
-                Créer un compte
-            </a>
+
         <?php endif; ?>
     </nav>
 </header>
