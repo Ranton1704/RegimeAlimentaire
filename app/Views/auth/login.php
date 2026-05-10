@@ -10,7 +10,7 @@
                 Espace sécurisé
             </div>
 
-            <h2>Accédez à votre suivi santé avec une interface plus claire, plus rapide et plus rassurante.</h2>
+            <h2>Retrouvez votre programme et vos progrès en un clin d'œil.</h2>
             <p>
                 Retrouvez votre programme, vos données et vos recommandations dans un espace pensé pour la lisibilité,
                 la confiance et la vitesse d’usage.
