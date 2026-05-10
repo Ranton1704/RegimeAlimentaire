@@ -360,6 +360,7 @@ footer {
               font-size: 14px;
               color: #1a1f1c;
               transition: background .12s ease, color .12s ease;
+              appearance: none;
               -webkit-appearance: none;
             }
             /* sample placeholder overlay (when no value) */
@@ -780,6 +781,7 @@ fieldset {
   margin: 0 0 8px;
   color: #5a6360;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden; }
@@ -803,7 +805,7 @@ fieldset {
   max-width: none; }
 
 .profile-edit-page {
-  max-width: 1320px;
+  max-width: 1480px;
   padding-top: 24px;
   padding-bottom: 32px; }
 
@@ -818,12 +820,17 @@ fieldset {
 
 .profile-edit-form {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px 18px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 18px;
   align-items: start; }
 
 .profile-edit-header-card {
   grid-column: 1 / -1; }
+
+.profile-edit-card {
+  grid-column: span 6;
+  width: 100%;
+  max-width: none; }
 
 .profile-actions {
   grid-column: 1 / -1;
@@ -1460,7 +1467,8 @@ fieldset {
 
   .profile-edit-header-card,
   .profile-edit-card {
-    padding: 24px; }
+    padding: 24px;
+    grid-column: 1 / -1; }
 
   .profile-field-row {
     grid-template-columns: 1fr;
