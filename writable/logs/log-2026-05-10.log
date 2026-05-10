@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 ERROR - 2026-05-10 15:51:24 --> Unknown column 'poids_souhaite' in 'field list'
 in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
  1 SYSTEMPATH/Database/MySQLi/Connection.php(300): mysqli->query()
@@ -24,12 +25,24 @@ in SYSTEMPATH/Database/BaseConnection.php on line 865.
  4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
  5 APPPATH/Controllers/Auth.php(165): CodeIgniter\Model->insert()
  6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->postStep2()
+=======
+CRITICAL - 2026-05-10 16:32:27 --> ErrorException: Undefined variable $wallet
+[Method: GET, Route: dashboard]
+in APPPATH/Views/dashboard/index.php on line 45.
+ 1 APPPATH/Views/dashboard/index.php(45): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/data/L2-S4/Sys-Info/RegimeAlimentaire/app/Views/dashboard/index.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Dashboard.php(175): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Dashboard->index()
+>>>>>>> Stashed changes
  7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
  8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
  9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 12 SYSTEMPATH/rewrite.php(44): require_once('/data/L2-S4/Sys-Info/RegimeAlimentaire/public/index.php')
+<<<<<<< Updated upstream
 CRITICAL - 2026-05-10 15:51:24 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'poids_souhaite' in 'field list'
 in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
  1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
@@ -158,12 +171,24 @@ in SYSTEMPATH/Database/BaseConnection.php on line 865.
  4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
  5 APPPATH/Controllers/Auth.php(145): CodeIgniter\Model->insert()
  6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->postStep2()
+=======
+CRITICAL - 2026-05-10 16:32:27 --> ErrorException: Undefined variable $wallet
+[Method: GET, Route: dashboard]
+in APPPATH/Views/dashboard/index.php on line 45.
+ 1 APPPATH/Views/dashboard/index.php(45): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/data/L2-S4/Sys-Info/RegimeAlimentaire/app/Views/dashboard/index.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Dashboard.php(175): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Dashboard->index()
+>>>>>>> Stashed changes
  7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
  8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
  9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 12 SYSTEMPATH/rewrite.php(44): require_once('/data/L2-S4/Sys-Info/RegimeAlimentaire/public/index.php')
+<<<<<<< Updated upstream
 CRITICAL - 2026-05-10 15:57:37 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry 'nael@gmail.com' for key 'email'
 in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
  1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
@@ -223,12 +248,24 @@ in SYSTEMPATH/Database/BaseConnection.php on line 865.
  4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
  5 APPPATH/Controllers/Auth.php(145): CodeIgniter\Model->insert()
  6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->postStep2()
+=======
+CRITICAL - 2026-05-10 16:32:28 --> ErrorException: Undefined variable $wallet
+[Method: GET, Route: dashboard]
+in APPPATH/Views/dashboard/index.php on line 45.
+ 1 APPPATH/Views/dashboard/index.php(45): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/data/L2-S4/Sys-Info/RegimeAlimentaire/app/Views/dashboard/index.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Dashboard.php(175): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Dashboard->index()
+>>>>>>> Stashed changes
  7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
  8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
  9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 12 SYSTEMPATH/rewrite.php(44): require_once('/data/L2-S4/Sys-Info/RegimeAlimentaire/public/index.php')
+<<<<<<< Updated upstream
 CRITICAL - 2026-05-10 15:57:37 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry 'nael@gmail.com' for key 'email'
 in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
  1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
@@ -288,12 +325,24 @@ in SYSTEMPATH/Database/BaseConnection.php on line 865.
  4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
  5 APPPATH/Controllers/Auth.php(170): CodeIgniter\Model->insert()
  6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->postStep2()
+=======
+CRITICAL - 2026-05-10 16:32:28 --> ErrorException: Undefined variable $wallet
+[Method: GET, Route: dashboard]
+in APPPATH/Views/dashboard/index.php on line 45.
+ 1 APPPATH/Views/dashboard/index.php(45): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/data/L2-S4/Sys-Info/RegimeAlimentaire/app/Views/dashboard/index.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Dashboard.php(175): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Dashboard->index()
+>>>>>>> Stashed changes
  7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
  8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
  9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 12 SYSTEMPATH/rewrite.php(44): require_once('/data/L2-S4/Sys-Info/RegimeAlimentaire/public/index.php')
+<<<<<<< Updated upstream
 CRITICAL - 2026-05-10 16:04:54 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'poids_souhaite' in 'field list'
 in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
  1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
@@ -353,12 +402,39 @@ in SYSTEMPATH/Database/BaseConnection.php on line 865.
  4 SYSTEMPATH/Model.php(668): CodeIgniter\BaseModel->insert()
  5 APPPATH/Controllers/Auth.php(145): CodeIgniter\Model->insert()
  6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Auth->postStep2()
+=======
+CRITICAL - 2026-05-10 16:32:28 --> ErrorException: Undefined variable $wallet
+[Method: GET, Route: dashboard]
+in APPPATH/Views/dashboard/index.php on line 45.
+ 1 APPPATH/Views/dashboard/index.php(45): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/data/L2-S4/Sys-Info/RegimeAlimentaire/app/Views/dashboard/index.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Dashboard.php(175): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Dashboard->index()
  7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
  8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
  9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
 10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 12 SYSTEMPATH/rewrite.php(44): require_once('/data/L2-S4/Sys-Info/RegimeAlimentaire/public/index.php')
+CRITICAL - 2026-05-10 16:32:29 --> ErrorException: Undefined variable $wallet
+[Method: GET, Route: dashboard]
+in APPPATH/Views/dashboard/index.php on line 45.
+ 1 APPPATH/Views/dashboard/index.php(45): CodeIgniter\Debug\Exceptions->errorHandler()
+ 2 SYSTEMPATH/View/View.php(240): include('/data/L2-S4/Sys-Info/RegimeAlimentaire/app/Views/dashboard/index.php')
+ 3 SYSTEMPATH/View/View.php(243): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH/Common.php(1250): CodeIgniter\View\View->render()
+ 5 APPPATH/Controllers/Dashboard.php(175): view()
+ 6 SYSTEMPATH/CodeIgniter.php(951): App\Controllers\Dashboard->index()
+>>>>>>> Stashed changes
+ 7 SYSTEMPATH/CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController()
+ 8 SYSTEMPATH/CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest()
+ 9 SYSTEMPATH/Boot.php(417): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
+11 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
+12 SYSTEMPATH/rewrite.php(44): require_once('/data/L2-S4/Sys-Info/RegimeAlimentaire/public/index.php')
+<<<<<<< Updated upstream
 CRITICAL - 2026-05-10 16:11:37 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Duplicate entry 'kim@gmail.com' for key 'email'
 in SYSTEMPATH/Database/MySQLi/Connection.php on line 310.
  1 SYSTEMPATH/Database/BaseConnection.php(910): CodeIgniter\Database\MySQLi\Connection->execute()
@@ -392,3 +468,5 @@ in SYSTEMPATH/Database/MySQLi/Connection.php on line 300.
 13 SYSTEMPATH/Boot.php(68): CodeIgniter\Boot::runCodeIgniter()
 14 FCPATH/index.php(59): CodeIgniter\Boot::bootWeb()
 15 SYSTEMPATH/rewrite.php(44): require_once('/data/L2-S4/Sys-Info/RegimeAlimentaire/public/index.php')
+=======
+>>>>>>> Stashed changes

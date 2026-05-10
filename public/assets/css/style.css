@@ -1319,9 +1319,13 @@ fieldset {
     .btn.btn-block {
       margin-top: 16px; }
 
-  .back-link a {
-    padding: 7px 10px;
-    font-size: 13px; }
+  .back-link {
+    margin-top: 14px; }
+    .back-link a {
+      padding: 8px 10px;
+      font-size: 12px;
+      width: 100%;
+      justify-content: center; }
 
   .field {
     margin-bottom: 14px; }
@@ -1591,3 +1595,34 @@ fieldset {
     font-size: 13px; } }
 
 /*# sourceMappingURL=style.css.map */
+
+/* Styles pour les icônes et infobulles */
+.icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: white;
+}
+
+.tooltip {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #6b6b6b;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: -5px;
+  left: 25px;
+  background: #2da05c;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
