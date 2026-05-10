@@ -3,7 +3,7 @@
 <div class="page">
     <div class="card">
         <h2>Choisissez vos objectifs</h2>
-        <p class="card-subtitle">Sélectionnez de 1 à 3 objectifs pour personnaliser votre programme.</p>
+        <p class="card-subtitle">Sélectionnez jusqu'à 3 objectifs.</p>
 
         <div class="alert-error" id="error"><?= session()->getFlashdata('error') ?? '' ?></div>
 
@@ -12,18 +12,18 @@
 
             <?php if (!empty($objectifs)) : ?>
                 <?php foreach ($objectifs as $objectif) : ?>
-                    <div class="field" style="margin-bottom: 10px;">
-                        <label>
-                            <input
-                                type="checkbox"
-                                name="objectifs[]"
-                                value="<?= esc($objectif['id']) ?>"
-                                <?= in_array((int) $objectif['id'], $selectedIds ?? [], true) ? 'checked' : '' ?>
-                            >
+                    <div class="field" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <input
+                            type="checkbox"
+                            name="objectifs[]"
+                            value="<?= esc($objectif['id']) ?>"
+                            <?= in_array((int) $objectif['id'], $selectedIds ?? [], true) ? 'checked' : '' ?>
+                        >
+                      
+                        <div>
                             <strong><?= esc($objectif['nom']) ?></strong>
-                            <br>
-                            <small><?= esc($objectif['description']) ?></small>
-                        </label>
+                            <span class="tooltip" title="<?= esc($objectif['description']) ?>"></span>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>
