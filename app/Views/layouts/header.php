@@ -21,7 +21,7 @@
                 <line x1="15" y1="9" x2="15.01" y2="9"/>
             </svg>
         </div>
-        <h1>Regime Santé <span class="brand-id">ETU004371-4242</span></h1>
+        <h1>Regime Santé <span class="brand-id">ETU004371-4242-4361</span></h1>
     </div>
 
     <nav>
