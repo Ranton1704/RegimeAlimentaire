@@ -1,19 +1,19 @@
 <?= view('layouts/header', ['title' => 'Dashboard']) ?>
 
-<div class="container dashboard-page">
+<div class="dashboard-page">
 
     <div class="dashboard-grid">
         <div class="dashboard-main">
             <?php if (!empty($profil)) : ?>
-                <div class="hero-banner card dashboard-hero">
+                <div class="hero-banner dashboard-hero">
                     <div class="hero-copy">
                         <div class="card-eyebrow">Programme personnalisé</div>
                         <h2>Bonjour <?= esc($user['prenom'] ?? 'utilisateur') ?> 👋</h2>
-                        <p class="card-subtitle">Tout votre parcours est réuni ici, dans un espace clair et simple à parcourir.</p>
+                        <p class="card-subtitle">Votre espace complet pour suivre votre parcours santé et atteindre vos objectifs.</p>
                         <div class="hero-pills">
-                            <span class="hero-pill">Objectifs suivis: <?= esc((string) count($objectifs ?? [])) ?></span>
-                            <span class="hero-pill">Actions rapides</span>
-                            <span class="hero-pill">Conseils adaptés</span>
+                            <span class="hero-pill">📊 <?= esc((string) count($objectifs ?? [])) ?> Objectifs suivis</span>
+                            <span class="hero-pill">⚡ Actions rapides</span>
+                            <span class="hero-pill">💡 Conseils adaptés</span>
                         </div>
                     </div>
                     <div class="hero-stats">
@@ -31,7 +31,7 @@
 
             <div class="cards-row dashboard-kpis">
                 <div class="card small">
-                    <h3>IMC</h3>
+                    <h3>📈 IMC</h3>
                     <?php if (!empty($profil)) : ?>
                         <p class="big"><?= esc((string) $profil['imc']) ?></p>
                         <p><?= esc($imcCategory) ?></p>
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="card small">
-                    <h3>Objectifs</h3>
+                    <h3>🎯 Objectifs</h3>
                     <?php if (!empty($objectifs)) : ?>
                         <ul>
                             <?php foreach ($objectifs as $o) : ?>
@@ -54,14 +54,14 @@
                 </div>
 
                 <div class="card small">
-                    <h3>Wallet</h3>
+                    <h3>💰 Wallet</h3>
                     <p class="big"><?= isset($user['solde']) ? esc((string) $user['solde']) . ' Ar' : '0.00 Ar' ?></p>
-                    <p><a href="/wallet">Voir</a></p>
+                    <p><a href="/wallet">Voir le détail</a></p>
                 </div>
 
                 <div class="card small">
-                    <h3>Mon profil</h3>
-                    <p>Gérer mes informations</p>
+                    <h3>👤 Profil</h3>
+                    <p>Gérer vos informations</p>
                     <p><a href="/profil">Modifier</a></p>
                 </div>
             </div>
@@ -69,8 +69,8 @@
             <div class="card">
                 <div class="section-header">
                     <div>
-                        <h3>Recommandations</h3>
-                        <p>Des choix simples, adaptés à votre profil.</p>
+                        <h3>💡 Recommandations pour vous</h3>
+                        <p>Des régimes sélectionnés et adaptés à votre profil.</p>
                     </div>
                 </div>
 
@@ -82,19 +82,19 @@
                                 <h4><?= esc($regime['nom']) ?></h4>
                                 <p class="muted-clamp"><?= esc($regime['description']) ?></p>
                                 <div class="regime-meta">
-                                    <span>Variation: <?= esc((string) $regime['variation_poids']) ?></span>
+                                    <span>Variation: <?= esc((string) $regime['variation_poids']) ?> kg</span>
                                     <?php if (!empty($item['prix'])): ?>
                                         <?php if (!empty($isGold) && !empty($item['discount_rate'])): ?>
                                             <span> — Prix: <s><?= esc(number_format((float) $item['prix_base'], 2, ',', ' ')) ?> Ar</s> <?= esc(number_format((float) $item['prix'], 2, ',', ' ')) ?> Ar</span>
-                                            <span> — Remise Gold: -15%</span>
+                                            <span> — 🏆 Remise Gold: -15%</span>
                                         <?php else: ?>
                                             <span> — Prix: <?= esc(number_format((float) $item['prix'], 2, ',', ' ')) ?> Ar</span>
                                         <?php endif; ?>
                                         <span> — Durée: <?= esc((string) $item['duree_jours']) ?> jours</span>
                                     <?php endif; ?>
                                 </div>
-                                <div style="margin-top:8px;">
-                                    <a class="btn" href="/regime/<?= (int) $regime['id'] ?>/buy">Acheter</a>
+                                <div style="margin-top:12px;">
+                                    <a class="btn" href="/regime/<?= (int) $regime['id'] ?>/buy">Acheter ce régime</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -107,8 +107,8 @@
             <div class="card">
                 <div class="section-header">
                     <div>
-                        <h3>Activités sportives conseillées</h3>
-                        <p>Des activités faciles à comprendre et à lancer.</p>
+                        <h3>🏃 Activités sportives conseillées</h3>
+                        <p>Découvrez les activités adaptées à votre profil.</p>
                     </div>
                 </div>
 
@@ -119,7 +119,7 @@
                                 <h4><?= esc($activity['nom']) ?></h4>
                                 <p class="muted-clamp"><?= esc($activity['description']) ?></p>
                                 <div class="regime-meta">
-                                    <span>Durée: <?= esc((string) ($activity['duree_minutes'] ?? 0)) ?> min</span>
+                                    <span>⏱️ Durée: <?= esc((string) ($activity['duree_minutes'] ?? 0)) ?> min</span>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -132,8 +132,8 @@
             <div class="card">
                 <div class="section-header">
                     <div>
-                        <h3>Statistiques</h3>
-                        <p>Un suivi rapide de votre activité.</p>
+                        <h3>📊 Vos statistiques</h3>
+                        <p>Un aperçu rapide de votre activité.</p>
                     </div>
                 </div>
 
